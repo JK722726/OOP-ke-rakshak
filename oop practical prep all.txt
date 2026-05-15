@@ -1,0 +1,916 @@
+# OOP Practical Complete Preparation (A1 to B4)
+
+Prepared for: Jainil Kothari
+Subject: Object Oriented Programming (Java)
+
+---
+
+# HOW TO STUDY FOR PRACTICAL
+
+For every experiment remember these 5 things:
+
+1. Concept used
+2. Important keywords
+3. Flow of program
+4. Important lines
+5. Viva answers
+
+External mainly checks:
+
+* Confidence
+* Basic understanding
+* Can you explain your own code?
+
+---
+
+# EXPERIMENT A1 — ENGINEERING CALCULATOR
+
+Concepts Used:
+
+* Loops
+* Conditional Statements
+* Stack
+* Exception Handling
+* Methods
+* Scanner Class
+
+Main Objective:
+Create a calculator that evaluates mathematical expressions dynamically.
+
+Important Concepts:
+
+## Scanner Class
+
+Used to take input from user.
+
+```java
+Scanner sc = new Scanner(System.in);
+```
+
+## Infinite Loop
+
+```java
+while(true)
+```
+
+Program continuously accepts expressions until user types exit.
+
+## Exception Handling
+
+```java
+try
+catch
+```
+
+Used to prevent program crash.
+
+## Stacks
+
+```java
+Deque<Double> values
+Deque<Character> operators
+```
+
+Used for storing numbers and operators.
+
+## Operator Precedence
+
+```java
++
+-
+*
+/
+^
+```
+
+Multiplication/division have higher priority than addition/subtraction.
+
+Important Methods:
+
+### evaluateExpression()
+
+Processes the entire expression.
+
+### applyOperation()
+
+Performs calculation.
+
+### precedence()
+
+Checks operator priority.
+
+### isOperator()
+
+Checks whether character is operator.
+
+Flow of Program:
+
+1. User enters expression
+2. Numbers pushed into values stack
+3. Operators pushed into operators stack
+4. Operations performed according to precedence
+5. Final result displayed
+
+Important Viva Questions:
+
+Q. Why use stack?
+A. Stack helps evaluate expressions according to operator precedence.
+
+Q. Why exception handling?
+A. To handle invalid expressions and division by zero.
+
+Q. Which exception handles divide by zero?
+A. ArithmeticException.
+
+Q. Which loop is used?
+A. while loop.
+
+Q. Why Scanner used?
+A. For dynamic user input.
+
+Important Keywords:
+
+* Stack
+* Deque
+* Exception Handling
+* Operator Precedence
+* Loop
+
+What to Say to External:
+
+“This program implements a dynamic engineering calculator using stacks and exception handling. It supports arithmetic operations with operator precedence and parentheses handling.”
+
+---
+
+# EXPERIMENT A2 — ORDER PROCESSING SYSTEM
+
+Concepts Used:
+
+* Classes and Objects
+* Constructor Overloading
+* ArrayList
+* Methods
+* Conditional Statements
+* Encapsulation
+
+Classes Used:
+
+* Product
+* Order
+* Main
+
+Main Objective:
+Create an e-commerce billing system with invoice generation.
+
+## Constructor Overloading
+
+Same constructor name but different parameters.
+
+```java
+Product(String name, double price)
+Product(String name, double price, int quantity)
+Product(String name, double price, int quantity, String category)
+```
+
+This provides flexibility while creating objects.
+
+## Encapsulation
+
+```java
+private String name;
+```
+
+Data hiding using private variables.
+
+## ArrayList
+
+```java
+List<Product> productList = new ArrayList<>();
+```
+
+Used for dynamic storage of products.
+
+## Methods Used
+
+### addProduct()
+
+Adds product into order.
+
+### calculateTotal()
+
+Calculates total price.
+
+### applyDiscount()
+
+Applies discount based on conditions.
+
+### generateInvoice()
+
+Prints invoice.
+
+Discount Logic:
+
+* Above 5000 → 15%
+* Above 3000 → 10%
+* Above 1000 → 5%
+
+Flow of Program:
+
+1. Create products
+2. Add products into ArrayList
+3. Calculate total
+4. Apply discount
+5. Generate invoice
+
+Important Viva Questions:
+
+Q. What is constructor overloading?
+A. Multiple constructors with same name but different parameters.
+
+Q. Why ArrayList used?
+A. Dynamic storage.
+
+Q. Difference between array and ArrayList?
+A. Array size fixed, ArrayList dynamic.
+
+Q. Why private variables used?
+A. Encapsulation and data security.
+
+Important Keywords:
+
+* Constructor Overloading
+* ArrayList
+* Encapsulation
+* Invoice Generation
+
+What to Say to External:
+
+“This program demonstrates constructor overloading and dynamic order management using ArrayList. Products are added dynamically, discounts are applied using conditions, and invoice is generated.”
+
+---
+
+# EXPERIMENT A3 — METHOD OVERLOADING
+
+Concepts Used:
+
+* Method Overloading
+* Static Methods
+* Math Class
+* Polymorphism (Compile Time)
+
+Class Used:
+
+* Calculator
+
+Main Objective:
+Demonstrate method overloading using power and absolute calculations.
+
+## Method Overloading
+
+Same method name with different parameters.
+
+```java
+power(int base, int exponent)
+power(double base, double exponent)
+```
+
+Compiler decides which method to call.
+
+## Static Methods
+
+```java
+public static double power()
+```
+
+Can be called without object.
+
+## Math Class
+
+```java
+Math.pow()
+Math.abs()
+```
+
+Used for mathematical calculations.
+
+Flow of Program:
+
+1. User enters values
+2. Compiler selects appropriate overloaded method
+3. Result displayed
+
+Important Viva Questions:
+
+Q. What is method overloading?
+A. Same method name with different parameter lists.
+
+Q. Which polymorphism used?
+A. Compile-time polymorphism.
+
+Q. Can methods overload by return type only?
+A. No.
+
+Q. Why static methods?
+A. Can be accessed without creating object.
+
+Important Keywords:
+
+* Compile-time Polymorphism
+* Overloading
+* Static Method
+* Math Class
+
+What to Say to External:
+
+“This program demonstrates compile-time polymorphism through method overloading. Different power() and absolute() methods work with different data types.”
+
+---
+
+# EXPERIMENT A4 — ATM SYSTEM WITH EXCEPTION HANDLING
+
+Concepts Used:
+
+* Classes and Objects
+* Exception Handling
+* try-catch-finally
+* Loops
+* Scanner
+* Encapsulation
+
+Class Used:
+
+* ATM
+
+Main Objective:
+Simulate ATM operations with proper exception handling.
+
+Operations:
+
+* Check balance
+* Deposit
+* Withdraw
+
+## Encapsulation
+
+```java
+private double balance;
+```
+
+Balance hidden using private access modifier.
+
+## Exception Handling
+
+```java
+try
+catch
+finally
+```
+
+Used for safe execution.
+
+## Exceptions Used
+
+### IllegalArgumentException
+
+Thrown for invalid amount.
+
+### ArithmeticException
+
+Thrown for insufficient funds.
+
+## finally Block
+
+Always executes.
+
+```java
+finally {
+System.out.println("Transaction processed.");
+}
+```
+
+Flow of Program:
+
+1. User selects menu option
+2. Deposit/withdraw/check balance
+3. Exceptions handled
+4. Menu continues running
+
+Important Viva Questions:
+
+Q. Why exception handling used?
+A. To avoid program crash.
+
+Q. Difference between checked and unchecked exception?
+A. RuntimeException subclasses are unchecked.
+
+Q. Why finally block used?
+A. Executes whether exception occurs or not.
+
+Q. Which exception handles insufficient balance?
+A. ArithmeticException.
+
+Important Keywords:
+
+* try-catch-finally
+* Exception Handling
+* Encapsulation
+* Runtime Error
+
+What to Say to External:
+
+“This program demonstrates ATM operations using exception handling. Invalid withdrawals and invalid amounts are handled gracefully using try-catch-finally blocks.”
+
+---
+
+# EXPERIMENT B1 — SINGLE INHERITANCE
+
+Concepts Used:
+
+* Inheritance
+* Constructor Chaining
+* Method Overriding
+* Encapsulation
+* Classes and Objects
+
+Classes Used:
+
+* Animal
+* Dog
+
+Main Objective:
+Demonstrate single inheritance.
+
+## Inheritance
+
+```java
+class Dog extends Animal
+```
+
+Dog inherits Animal properties and methods.
+
+## Parent Class
+
+```java
+class Animal
+```
+
+## Child Class
+
+```java
+class Dog extends Animal
+```
+
+## Constructor Chaining
+
+```java
+super(name, age);
+```
+
+Calls parent constructor.
+
+## Method Overriding
+
+```java
+@Override
+public void eat()
+```
+
+Dog changes Animal eat() behavior.
+
+## Encapsulation
+
+```java
+private String breed;
+```
+
+Flow of Program:
+
+1. Dog object created
+2. Animal constructor called using super()
+3. Methods executed
+4. Overridden eat() runs
+
+Important Viva Questions:
+
+Q. What is inheritance?
+A. Acquiring properties and methods of parent class.
+
+Q. Which keyword used for inheritance?
+A. extends.
+
+Q. What is method overriding?
+A. Redefining parent method in child class.
+
+Q. What is super keyword?
+A. Refers to parent class.
+
+Q. Why protected used?
+A. Allows subclass access.
+
+Important Keywords:
+
+* extends
+* super
+* Overriding
+* Code Reusability
+
+What to Say to External:
+
+“This program demonstrates single inheritance where Dog class inherits Animal class methods and fields using extends keyword. Method overriding and constructor chaining are also demonstrated.”
+
+---
+
+# EXPERIMENT B2 — INTERFACE & POLYMORPHISM
+
+Concepts Used:
+
+* Interface
+* Runtime Polymorphism
+* Abstraction
+* Method Overriding
+* Dynamic Method Dispatch
+
+Interface Used:
+
+* Shape
+
+Classes Used:
+
+* Circle
+* Rectangle
+
+Main Objective:
+Demonstrate interface implementation and runtime polymorphism.
+
+## Interface
+
+```java
+interface Shape
+```
+
+Contains abstract methods.
+
+## Methods
+
+```java
+void draw();
+double calculateArea();
+```
+
+## Implementing Interface
+
+```java
+class Circle implements Shape
+```
+
+## Runtime Polymorphism
+
+```java
+Shape s1 = new Circle(5);
+```
+
+Interface reference stores child object.
+
+## Dynamic Method Dispatch
+
+```java
+s.draw();
+```
+
+Correct method selected at runtime.
+
+Circle Area Formula:
+A = πr²
+
+Rectangle Area Formula:
+A = l × w
+
+Flow of Program:
+
+1. Interface created
+2. Circle and Rectangle implement interface
+3. Shape references created
+4. displayShape() called
+5. Correct methods run dynamically
+
+Important Viva Questions:
+
+Q. What is interface?
+A. Collection of abstract methods.
+
+Q. Why interface used?
+A. Abstraction and polymorphism.
+
+Q. Difference between extends and implements?
+A. extends for inheritance, implements for interface.
+
+Q. What is runtime polymorphism?
+A. One reference, many forms.
+
+Q. Can interface have object?
+A. No.
+
+Important Keywords:
+
+* Interface
+* implements
+* Runtime Polymorphism
+* Abstraction
+* Dynamic Binding
+
+What to Say to External:
+
+“This program demonstrates interfaces and runtime polymorphism. Shape interface is implemented by Circle and Rectangle classes, and Shape references dynamically call correct methods at runtime.”
+
+---
+
+# EXPERIMENT B3 — ABSTRACT CLASS
+
+Concepts Used:
+
+* Abstract Class
+* Abstract Method
+* Inheritance
+* Runtime Polymorphism
+* Method Overriding
+
+Classes Used:
+
+* Employee
+* Developer
+* Manager
+
+Main Objective:
+Demonstrate abstract classes and abstract methods.
+
+## Abstract Class
+
+```java
+abstract class Employee
+```
+
+Cannot create object directly.
+
+## Abstract Method
+
+```java
+public abstract double calculateBonus();
+```
+
+No body.
+Subclass must implement.
+
+## Concrete Method
+
+```java
+public void displayDetails()
+```
+
+Normal method with body.
+
+## Child Classes
+
+```java
+class Developer extends Employee
+class Manager extends Employee
+```
+
+## Runtime Polymorphism
+
+```java
+Employee emp1 = new Developer()
+```
+
+Flow of Program:
+
+1. Employee reference created
+2. Developer/Manager objects assigned
+3. calculateBonus() runs according to object type
+
+Important Viva Questions:
+
+Q. What is abstract class?
+A. Partial blueprint containing abstract and concrete methods.
+
+Q. Can abstract class have constructor?
+A. Yes.
+
+Q. Can we create object of abstract class?
+A. No.
+
+Q. Difference between interface and abstract class?
+A. Abstract class supports concrete methods and constructors.
+
+Q. Why abstract method used?
+A. To force subclasses to provide implementation.
+
+Important Keywords:
+
+* abstract
+* Abstract Method
+* Partial Abstraction
+* Runtime Polymorphism
+
+What to Say to External:
+
+“This program demonstrates abstract class functionality. Employee is an abstract class containing both abstract and concrete methods. Developer and Manager provide their own implementations for calculateBonus().”
+
+---
+
+# EXPERIMENT B4 — ARRAY OPERATIONS
+
+Concepts Used:
+
+* Arrays
+* Loops
+* Methods
+* Linear Search
+* Menu Driven Program
+
+Main Objective:
+Perform array operations.
+
+Operations:
+
+* Display
+* Maximum
+* Minimum
+* Sum
+* Average
+* Search
+
+## Array Declaration
+
+```java
+int[] arr = new int[n];
+```
+
+## Enhanced For Loop
+
+```java
+for(int num : arr)
+```
+
+Used for traversal.
+
+## Linear Search
+
+```java
+searchElement()
+```
+
+Checks elements one by one.
+
+## Maximum Logic
+
+```java
+if(num > max)
+```
+
+## Minimum Logic
+
+```java
+if(num < min)
+```
+
+## Average Formula
+
+Average = Sum / Number of elements
+
+Flow of Program:
+
+1. User enters array
+2. Menu displayed
+3. User selects operation
+4. Operation performed
+5. Loop continues until exit
+
+Important Viva Questions:
+
+Q. What is array?
+A. Collection of same type of elements.
+
+Q. Array index starts from?
+A. 0.
+
+Q. What is linear search?
+A. Searching element sequentially.
+
+Q. Why enhanced for loop used?
+A. Easy traversal.
+
+Q. What is time complexity of linear search?
+A. O(n).
+
+Important Keywords:
+
+* Array
+* Traversal
+* Linear Search
+* Enhanced For Loop
+* Menu Driven
+
+What to Say to External:
+
+“This program demonstrates basic array operations including maximum, minimum, sum, average, and linear search using loops and methods.”
+
+---
+
+# VERY IMPORTANT COMMON VIVA QUESTIONS
+
+## What is OOP?
+
+Object Oriented Programming is programming based on objects and classes.
+
+## Four Pillars of OOP
+
+1. Inheritance
+2. Polymorphism
+3. Encapsulation
+4. Abstraction
+
+## Difference Between Overloading and Overriding
+
+| Overloading                           | Overriding                  |
+| ------------------------------------- | --------------------------- |
+| Same method name different parameters | Same method same parameters |
+| Compile time                          | Runtime                     |
+| Same class                            | Parent-child class          |
+
+## Difference Between Interface and Abstract Class
+
+| Interface         | Abstract Class      |
+| ----------------- | ------------------- |
+| Full abstraction  | Partial abstraction |
+| implements        | extends             |
+| No object         | No object           |
+| Multiple possible | Single inheritance  |
+
+## What is Constructor?
+
+Constructor initializes object.
+
+## What is this keyword?
+
+Refers to current object.
+
+## What is super keyword?
+
+Refers to parent class.
+
+## What is Exception Handling?
+
+Mechanism to handle runtime errors.
+
+## What is Polymorphism?
+
+One interface, many forms.
+
+## What is Encapsulation?
+
+Wrapping data and methods together.
+
+## What is Abstraction?
+
+Hiding implementation details.
+
+---
+
+# FINAL PRACTICAL TIPS
+
+1. First explain concept
+
+2. Then explain classes
+
+3. Then explain important methods
+
+4. Mention OOP concepts confidently
+
+5. Use keywords like:
+
+   * inheritance
+   * polymorphism
+   * abstraction
+   * encapsulation
+   * constructor chaining
+   * dynamic binding
+   * runtime polymorphism
+
+6. Never say “I copied code”
+
+7. Explain flow confidently
+
+8. Even if syntax forgotten, explain logic properly
+
+---
+
+# MOST IMPORTANT THING
+
+External does NOT expect expert-level Java.
+They mainly check:
+
+* Basic understanding
+* Confidence
+* Ability to explain your code
+
+You are now fully prepared for A1 to B4 experiments.
