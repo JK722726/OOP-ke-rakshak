@@ -1,0 +1,295 @@
+import java.sql.*;
+import java.util.Scanner;
+
+public class EMP_Crud {
+    // Database Credentials
+    private static final String URL = "jdbc:mysql://localhost:3306/testdb";
+    private static final String USER = "root";
+    private static final String PASSWORD = "kpatil6214"; 
+
+    // Centralized Connection Logic
+    private static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(URL, USER, PASSWORD);
+    }
+
+    public static void main(String[] args) {
+        var scanner = new Scanner(System.in);
+        int choice;
+
+        do {
+            System.out.println("\n===== EMPLOYEE MANAGEMENT SYSTEM =====");
+            System.out.println("1. Add | 2. View | 3. Update Salary | 4. Delete | 5. Exit");
+            System.out.print("Action: ");
+            
+            while (!scanner.hasNextInt()) {
+                System.out.print("Please enter a number (1-5): ");
+                scanner.next();
+            }
+            choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1 -> addEmployee(scanner);
+                case 2 -> viewEmployees();
+                case 3 -> updateEmployee(scanner);
+                case 4 -> deleteEmployee(scanner);
+                case 5 -> System.out.println("Shutting down system...");
+                default -> System.out.println("Invalid selection.");
+            }
+        } while (choice != 5);
+        scanner.close();
+    }
+
+    // CREATE: Adds a new record
+    private static void addEmployee(Scanner sc) {
+        String query = "INSERT INTO employees (id, name, department, salary) VALUES (?, ?, ?, ?)";
+        
+        try (var con = getConnection(); 
+             var ps = con.prepareStatement(query)) {
+            
+            System.out.print("Enter ID: "); ps.setInt(1, sc.nextInt());
+            sc.nextLine(); // Clear buffer
+            System.out.print("Enter Name: "); ps.setString(2, sc.nextLine());
+            System.out.print("Department: "); ps.setString(3, sc.nextLine());
+            System.out.print("Salary: "); ps.setDouble(4, sc.nextDouble());
+
+            ps.executeUpdate();
+            System.out.println("✔ Employee successfully registered.");
+            
+        } catch (SQLException e) {
+            System.err.println("❌ Error adding employee: " + e.getMessage());
+        }
+    }
+
+    // READ: Displays all records
+    private static void viewEmployees() {
+        String query = "SELECT * FROM employees";
+
+        try (var con = getConnection();
+             var ps = con.prepareStatement(query);
+             var rs = ps.executeQuery()) {
+
+            System.out.println("\nID   | Name                 | Department      | Salary");
+            System.out.println("-------------------------------------------------------");
+            while (rs.next()) {
+                System.out.printf("%-4d | %-20s | %-15s | %.2f%n",
+                    rs.getInt("id"), rs.getString("name"), 
+                    rs.getString("department"), rs.getDouble("salary"));
+            }
+        } catch (SQLException e) {
+            System.err.println("❌ Error fetching data: " + e.getMessage());
+        }
+    }
+
+    // UPDATE: Modifies existing salary
+    private static void updateEmployee(Scanner sc) {
+        String query = "UPDATE employees SET salary = ? WHERE id = ?";
+        
+        try (var con = getConnection();
+             var ps = con.prepareStatement(query)) {
+            
+            System.out.print("Employee ID to update: ");
+            int id = sc.nextInt();
+            System.out.print("New Salary: ");
+            double salary = sc.nextDouble();
+
+            ps.setDouble(1, salary);
+            ps.setInt(2, id);
+
+            int rows = ps.executeUpdate();
+            System.out.println(rows > 0 ? "✔ Salary updated." : "⚠ ID not found.");
+            
+        } catch (SQLException e) {
+            System.err.println("❌ Update failed: " + e.getMessage());
+        }
+    }
+
+    // DELETE: Removes a record
+    private static void deleteEmployee(Scanner sc) {
+        String query = "DELETE FROM employees WHERE id = ?";
+        
+        try (var con = getConnection();
+             var ps = con.prepareStatement(query)) {
+            
+            System.out.print("Employee ID to remove: ");
+            ps.setInt(1, sc.nextInt());
+
+            int rows = ps.executeUpdate();
+            System.out.println(rows > 0 ? "✔ Record deleted." : "⚠ ID not found.");
+            
+        } catch (SQLException e) {
+            System.err.println("❌ Delete failed: " + e.getMessage());
+        }
+    }
+}
+
+
+
+
+//java -cp ".;mysql-connector-j-9.7.0.jar" EMP_Crud
+
+// CREATE DATABASE IF NOT EXISTS testdb;
+// USE testdb;
+
+// CREATE TABLE IF NOT EXISTS students (
+//     id INT PRIMARY KEY,
+//     name VARCHAR(100),
+//     course VARCHAR(100),
+//     marks DOUBLE
+// );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Experiment Title: Create a Java application that connects to a MySQL/PostgreSQL database to manage
+employee information. Implement functionalities like adding, updating, deleting, and viewing employee
+records using JDBC. Use prepared statements to prevent SQL injection and handle exceptions gracefully.
+
+
+
+
+
+Objective: Develop a complete Java console application that connects to MySQL database to manage
+employee records through core CRUD operations. Students will implement secure database interactions
+using JDBC prepared statements while handling real-world exceptions gracefully.
+
+Learning Outcomes
+Establish JDBC connection to MySQL and execute parameterized SQL queries safely.
+Implement Add, Update, Delete, and View operations on employee data with proper error handling.
+Understand SQL injection prevention and resource management in database applications.
+
+
+
+
+
+Theory:
+JDBC stands for Java Database Connectivity. Java Database Connectivity (JDBC) serves as the bridge
+between Java applications and relational databases like MySQL. Think of it as a universal translator your
+Java code speaks one language, the database another, and JDBC handles the conversation seamlessly. The
+process begins with loading the JDBC driver, a small piece of software that understands both sides.
+
+
+
+
+The main steps involved are
+1. Load the JDBC driver.
+2. Establish a connection to the database.
+3. Create a statement.
+4. Execute SQL queries.
+5. Process results.
+6. Close the connection.
+
+
+
+Establishing Database Connection
+Connection is created using
+DriverManager.getConnection(URL, username, password)
+Example URL format
+jdbc:mysql://localhost:3306/employeedb
+This returns a Connection object that allows interaction with the
+database.
+
+
+PreparedStatement and Security
+PreparedStatement is a pre compiled SQL statement. It uses
+placeholders represented by question marks.
+Example
+INSERT INTO employees VALUES (?, ?, ?, ?)
+Values are set using methods like
+setInt()
+setString()
+setDouble()
+
+
+
+Prepared statements prevent SQL injection because user input is
+treated as data, not as SQL code.
+Unsafe example
+"SELECT * FROM employees WHERE id = " + userInput
+If user enters malicious input, the database may be damaged.
+Prepared statements remove this risk.
+
+
+
+
+
+CRUD Operations
+1. CREATE Operation
+Used to insert new employee records.
+Method used
+executeUpdate()
+It returns the number of rows affected.
+Example action
+Add employee name, department, and salary.
+
+
+
+
+
+
+2. READ Operation
+Used to retrieve employee records.
+Method used
+executeQuery()
+It returns a ResultSet object.
+Use next() to iterate through records.
+Retrieve values using
+getInt()
+getString()
+getDouble()
+
+
+
+
+
+3. UPDATE Operation
+Used to modify existing employee records.
+Method used
+executeUpdate()
+Include WHERE clause to update specific record.
+
+
+
+
+4. DELETE Operation
+Used to remove employee records.
+Method used
+executeUpdate()
+Example
+DELETE FROM employees WHERE id = ?
+
+
+
+
+Exception Handling
+All database operations must be enclosed inside try catch blocks.
+Catch SQLException to handle database related errors.
+Useful methods
+e.getMessage()
+e.getSQLState()
+e.getErrorCode()
+Use try with resources to automatically close
+Connection
+PreparedStatement
+ResultSet
+This prevents memory leaks and connection issues.

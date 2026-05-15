@@ -1,0 +1,204 @@
+abstract class Employee {
+    protected String name;
+    protected double salary;
+
+    public Employee(String name, double salary) {
+        this.name = name;
+        this.salary = salary;
+    }
+
+    // Every employee MUST calculate a bonus, but the formula varies
+    public abstract double calculateBonus();
+
+    // Every employee displays details the same way
+    public void displayDetails() {
+        System.out.println("Employee: " + name + " | Base Salary: " + salary);
+    }
+}
+
+class Developer extends Employee {
+    public Developer(String name, double salary) {
+        super(name, salary);
+    }
+
+    @Override
+    public double calculateBonus() {
+        return salary * 0.10; // Developers get 10%
+    }
+}
+
+class Manager extends Employee {
+    public Manager(String name, double salary) {
+        super(name, salary);
+    }
+
+    @Override
+    public double calculateBonus() {
+        return salary * 0.25; // Managers get 25%
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // You can't do: Employee e = new Employee();
+        
+        Employee emp1 = new Developer("Rahul", 50000);
+        Employee emp2 = new Manager("Sneha", 80000);
+
+        processPayment(emp1);
+        processPayment(emp2);
+    }
+
+    public static void processPayment(Employee e) {
+        e.displayDetails();
+        System.out.println("Bonus: " + e.calculateBonus());
+        System.out.println("Total Payout: " + (e.salary + e.calculateBonus()));
+        System.out.println("-----------------------------");
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Experiment Title: Write a Java program to create an abstract class with an abstract method and extend it
+in a subclass that provides its implementation.
+
+
+
+
+
+Objective: Master abstract classes by creating a partial blueprint with concrete methods and abstract
+methods that subclasses must implement. Demonstrate inheritance hierarchy where subclasses provide
+missing functionality while inheriting shared code.
+
+
+
+
+Prerequisites: Basic knowledge of Java classes, inheritance, and interfaces. Understanding of method
+overriding and constructor chaining. Familiarity with access modifiers and abstract concepts.
+
+
+
+
+Tools Used:
+1. Java Development Kit (JDK 8 or higher)
+2. Text editor (Notepad++, VS Code) or IDE (Eclipse, IntelliJ IDEA, NetBeans)
+3. Command line compiler (javac, java) or IDE run button
+
+
+
+
+Outcomes:
+1. Create abstract classes with both concrete and abstract methods.
+2. Implement abstract methods in concrete subclasses.
+3. Demonstrate code reuse through shared abstract class functionality.
+4. Understand abstract class instantiation rules and subclass requirements.
+
+
+
+
+
+Theory:
+Imagine you're designing a graphics engine for a game. All shapes share common behaviors they can move,
+resize, and display info but each shape calculates area differently (circle uses πr2, rectangle uses width ×
+height). Creating a plain Shape class won't work because area calculation varies. An abstract class is the
+perfect middle ground!
+
+
+
+Abstract Classes are partial blueprints half complete, half "fill in the blanks." They contain:
+ Concrete methods (shared functionality)
+ Abstract methods (must be implemented by subclasses)
+ Fields and constructors
+
+
+
+Syntax:
+abstract class AbstractClassName {
+    // Concrete fields
+    protected double x, y;
+    // Concrete constructor
+    public AbstractClassName(double x, double y) {
+    this.x = x; this.y = y;
+    }
+    // Concrete method - shared by all subclasses
+
+
+    public void move(int dx, int dy) {
+        x += dx; y += dy;
+    }
+    // Abstract method - NO BODY! Subclasses must implement
+    abstract double calculateArea(); // Semicolon only
+}
+
+
+
+
+
+Abstract Class Rules:
+ Can't Instantiate: new Shape() → Compile error!
+ Must Extend: Concrete subclasses use extends Shape
+ Abstract Methods: Subclasses MUST implement ALL abstract methods
+ Partial Implementation: Perfect for "is-a" with customization
+
+
+
+
+
+| Feature | Abstract Class | Concrete Class | Interface  |
+| Instantiation | No | Yes | No  |
+| Constructors | Yes | Yes | No  |
+| Fields | Yes (any) | Yes | Constants only  |
+| Methods | Concrete + Abstract | Concrete only | Abstract (default Java 8+)  |
+| Inheritance | Single | Single | Multiple  |
+| Purpose | Partial "is-a" | Complete "is-a" | "can-do" ability  |
+
+
+
+
+
+
+
+
+
+
+
+
+
+Algorithm:
+1. Define abstract Shape class with concrete displayInfo(), abstract calculateArea().
+2. Create Circle subclass extending Shape implementing calculateArea() for πr2.
+3. Create Rectangle subclass extending Shape implementing calculateArea() for w×h.
+4. In main(), create Shape array with Circle/Rectangle objects.
+5. Call polymorphic methods demonstrating abstract class power.

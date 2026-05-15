@@ -1,0 +1,175 @@
+import java.util.Scanner;
+
+public class Main {
+    // 1. Display Array using Enhanced For-Loop
+    public static void display(int[] arr) {
+        System.out.print("Array Elements: ");
+        for (int num : arr) {
+            System.out.print(num + " ");
+        }
+        System.out.println();
+    }
+
+    // 2. Find Maximum
+    public static int findMax(int[] arr) {
+        int max = arr[0]; // Assume the first element is the largest
+        for (int num : arr) {
+            if (num > max) max = num;
+        }
+        return max;
+    }
+
+    // 3. Find Minimum
+    public static int findMin(int[] arr) {
+        int min = arr[0];
+        for (int num : arr) {
+            if (num < min) min = num;
+        }
+        return min;
+    }
+
+    // 4. Calculate Sum
+    public static int calculateSum(int[] arr) {
+        int sum = 0;
+        for (int num : arr) {
+            sum += num;
+        }
+        return sum;
+    }
+
+    // 5. Linear Search (returns index or -1)
+    public static int searchElement(int[] arr, int key) {
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == key) return i; 
+        }
+        return -1;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter number of elements: ");
+        int n = sc.nextInt();
+        
+        // Array Declaration and Memory Allocation
+        int[] arr = new int[n]; 
+
+        System.out.println("Enter " + n + " elements:");
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        int choice;
+        do {
+            System.out.println("\n===== ARRAY MENU =====");
+            System.out.println("1. Display | 2. Max | 3. Min | 4. Sum/Avg | 5. Search | 6. Exit");
+            System.out.print("Choice: ");
+            choice = sc.nextInt();
+
+            switch (choice) {
+                case 1 -> display(arr);
+                case 2 -> System.out.println("Maximum: " + findMax(arr));
+                case 3 -> System.out.println("Minimum: " + findMin(arr));
+                case 4 -> {
+                    int sum = calculateSum(arr);
+                    double avg = (double) sum / arr.length;
+                    System.out.printf("Sum: %d | Average: %.2f%n", sum, avg);
+                }
+                case 5 -> {
+                    System.out.print("Search for: ");
+                    int key = sc.nextInt();
+                    int index = searchElement(arr, key);
+                    if (index != -1) System.out.println("Found at index: " + index);
+                    else System.out.println("Not found.");
+                }
+                case 6 -> System.out.println("Exiting...");
+                default -> System.out.println("Invalid choice.");
+            }
+        } while (choice != 6);
+        sc.close();
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Title: Develop a Java program to perform array operations including displaying elements, finding
+maximum and minimum values, calculating sum and average, and searching for a specific element.
+
+
+
+
+
+
+
+Objective: Perform array operations: display, max/min, sum/average, linear search.
+Learning Outcomes: Implement enhanced for-loops/indices for traversal, O(n) algorithms for
+max/min/sum/search, floating-point average calc, user-defined array size/input. Essential for data analysis
+in AI/ERP.
+
+
+
+
+
+
+Theory:
+Arrays and Basic Operations
+An array is a fundamental data structure that stores multiple values of the same data type in a single
+container. Each element in an array occupies a specific position, identified by an index, starting from 0.
+This means the first element is accessed as array[0], the second as array[1], and so on. Arrays have a fixed
+size, meaning the total number of elements must be defined when the array is created. For instance, int[]
+marks = new int[5]; creates an array of five integer elements indexed from 0 to 4.
+Because arrays store related data in an ordered sequence, they are ideal for performing repetitive operations
+like searching, summing, or finding maximum and minimum values.
+
+
+
+
+
+Linear Search
+The simplest way to find a particular value in an array is through a linear search. In this method, each
+element is checked one by one until a match is found or the end of the array is reached. Although it is not
+the fastest technique for large data sets, linear search works efficiently for small or unsorted arrays. For
+example, in a list of student roll numbers, the program compares each roll number with the target value
+until the desired one matches.
+
+
+
+
+
+Finding Maximum and Minimum
+To determine the maximum or minimum value in an array, an extreme value is first assumed. For maximum
+search, the initial extreme can be the first element of the array. The algorithm then loops through the
+remaining elements, comparing each with the current extreme. If a higher value appears, it replaces the
+stored maximum. Similarly, for finding the minimum, the smallest value is tracked in each iteration. This
+simple comparison-based approach ensures that by the end of the loop, the true highest or lowest value is
+found.
+
+
+
+
+
+
+Calculating Sum and Average
+Arrays also make it easy to compute the sum of elements using an accumulator variable. The accumulator
+starts at zero and adds each element’s value during loop iterations. Once the total sum is obtained, the
+average can be calculated by dividing this sum by the total number of elements in the array. For instance,
+if the array stores marks of five students, the program sums all marks and divides the total by 5 to get the
+class average.

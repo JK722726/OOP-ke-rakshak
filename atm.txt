@@ -1,0 +1,285 @@
+import java.util.Scanner;
+
+class ATM {
+    private double balance;
+
+    public ATM(double initialBalance) {
+        balance = initialBalance;
+    }
+
+    public void checkBalance() {
+        System.out.println("Current Balance: " + balance);
+    }
+
+    public void deposit(double amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Deposit amount must be positive.");
+        }
+        balance += amount;
+        System.out.println("Deposit successful.");
+    }
+
+    public void withdraw(double amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Withdrawal amount must be positive.");
+        }
+        if (amount > balance) {
+            throw new ArithmeticException("Insufficient funds.");
+        }
+        balance -= amount;
+        System.out.println("Withdrawal successful.");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        ATM atm = new ATM(10000); // Initial balance
+        int choice;
+        
+        do {
+            System.out.println("\n===== ATM MENU =====");
+            System.out.println("1. Check Balance");
+            System.out.println("2. Deposit");
+            System.out.println("3. Withdraw");
+            System.out.println("4. Exit");
+            System.out.print("Enter choice: ");
+            choice = sc.nextInt();
+            
+            try {
+                switch (choice) {
+                    case 1:
+                        atm.checkBalance();
+                        break;
+                    case 2:
+                        System.out.print("Enter deposit amount: ");
+                        double depositAmount = sc.nextDouble();
+                        atm.deposit(depositAmount);
+                        break;
+                    case 3:
+                        System.out.print("Enter withdrawal amount: ");
+                        double withdrawAmount = sc.nextDouble();
+                        atm.withdraw(withdrawAmount);
+                        break;
+                    case 4:
+                        System.out.println("Thank you for using ATM.");
+                        break;
+                    default:
+                        System.out.println("Invalid choice.");
+                }
+            } catch (IllegalArgumentException e) {
+                System.out.println("Error: " + e.getMessage());
+            } catch (ArithmeticException e) {
+                System.out.println("Error: " + e.getMessage());
+            } catch (Exception e) {
+                System.out.println("Invalid input. Please enter correct data.");
+                sc.nextLine(); // clear buffer
+            } finally {
+                System.out.println("Transaction processed.");
+            }
+        } while (choice != 4);
+        
+        sc.close();
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Experiment Title: Develop a Java application that simulates an ATM machine. Implement account balance
+check, withdrawal, and deposit. Use try, catch, and finally blocks to handle exceptions such as insufficient
+funds using Arithmetic Exception and invalid input using Illegal Argument Exception. Ensure smooth
+execution after exception handling.
+
+
+
+
+
+
+
+
+
+
+
+Objective:
+Develop a complete ATM simulation demonstrating exception handling for real-world errors: insufficient
+funds (ArithmeticException), invalid amounts (IllegalArgumentException). Ensure the application
+continues running smoothly after exceptions using proper try-catch-finally blocks.
+
+
+
+
+
+
+
+
+
+
+
+
+Prerequisites:
+Basic Java knowledge: classes, methods, Scanner input, if-else, loops. Understanding of method scope and
+return types. Familiarity with OOP concepts from previous labs.
+
+
+
+
+
+
+
+
+
+Tools Used:
+1. Java Development Kit (JDK 8 or higher)
+2. Text editor (Notepad++, VS Code) or IDE (Eclipse, IntelliJ IDEA, NetBeans)
+3. Command line compiler (javac, java) or IDE run button
+
+
+
+
+
+
+
+
+
+
+Outcomes:
+1. Implement custom exception handling for banking operations.
+2. Use try-catch-finally for resource cleanup and error recovery.
+3. Create user-friendly error messages with program continuity.
+4. Understand exception propagation and multi-level handling.
+
+
+
+
+
+
+
+
+
+Theory:
+Picture yourself at an ATM. You enter PIN (valid), check balance ($500), withdraw $600 → ERROR:
+"Insufficient funds!" But the ATM doesn't crash it says "Transaction failed, try again?" and returns to main
+menu. That's professional exception handling!
+Exceptions are Java's way of saying "Something went wrong, but I can recover gracefully." Instead of
+program crash, exceptions provide:
+ Error type identification: ArithmeticException, IllegalArgumentException
+ Recovery path: Return to menu, ask valid input
+ Cleanup: finally block closes resources
+
+
+
+
+
+
+
+
+
+Exception Handling Hierarchy:
+Throwable
+├── Error (OutOfMemoryError - don't handle)
+└── Exception
+├── RuntimeException (unchecked)
+│ ├── ArithmeticException (÷0, negative withdrawal)
+│ └── IllegalArgumentException (invalid input)
+└── Checked Exception (IOException - must handle)
+
+
+
+
+
+
+Try-Catch-Finally Syntax:
+try {
+    // Risky code: withdrawal, division, file I/O
+    if(balance < amount) throw new ArithmeticException("Insufficient
+    funds");
+} catch(ArithmeticException e) {
+    // Handle math errors
+    System.out.println("Error: " + e.getMessage());
+} catch(IllegalArgumentException e) {
+    // Handle bad input
+    System.out.println("Invalid input: " + e.getMessage());
+} finally {
+    // ALWAYS executes: cleanup Scanner, log transaction
+    System.out.println("Transaction processed. Choose next action.");
+}
+
+
+
+
+
+
+
+
+
+
+
+
+ATM-Specific Exception Strategy:
+1. Insufficient Funds: Custom ArithmeticException when withdrawal > balance
+2. Invalid Amount: IllegalArgumentException for negative/zero amounts
+3. Invalid Choice: Menu input validation with loop recovery
+4. Continuous Execution: Outer do-while loop survives inner exceptions
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Algorithm:
+1. Initialize ATM with 10000 balance, continuous menu loop.
+2. Display menu: 1-Check Balance, 2-Deposit, 3-Withdraw, 4-Exit.
+3. For each choice, wrap risky operations in try-catch-finally.
+4. Withdraw: Validate amount > 0, then balance >= amount, else throw exceptions.
+5. Catch specific exceptions with user messages, finally shows menu readiness.
+6. Loop continues until user chooses Exit.

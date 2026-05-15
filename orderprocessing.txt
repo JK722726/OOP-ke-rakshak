@@ -1,0 +1,219 @@
+import java.util.*;
+
+class Product {
+    private String name;
+    private double price;
+    private int quantity;
+    private String category;
+
+    // Constructor 1: Calls Constructor 3 with default quantity and category
+    public Product(String name, double price) {
+        this(name, price, 1, "General");
+    }
+
+    // Constructor 2: Calls Constructor 3 with default category
+    public Product(String name, double price, int quantity) {
+        this(name, price, quantity, "General");
+    }
+
+    // Constructor 3: The "Master" constructor that sets all values
+    public Product(String name, double price, int quantity, String category) {
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+        this.category = category;
+    }
+
+    public double getTotalPrice() {
+        return price * quantity;
+    }
+
+    @Override
+    public String toString() {
+        // Using formatted string for better alignment in the invoice
+        return String.format("%-12s | %-8.2f | %-4d | %-8.2f", name, price, quantity, getTotalPrice());
+    }
+}
+
+class Order {
+    // Added Generics <Product> for Type Safety
+    private final List<Product> productList = new ArrayList<>();
+
+    public void addProduct(Product p) {
+        productList.add(p);
+    }
+
+    public double calculateTotal() {
+        double total = 0;
+        for (Product p : productList) {
+            total += p.getTotalPrice();
+        }
+        return total;
+    }
+
+    public double applyDiscount(double total) {
+        if (total > 5000) return total * 0.15;
+        if (total > 3000) return total * 0.10;
+        if (total > 1000) return total * 0.05;
+        return 0;
+    }
+
+    public void generateInvoice() {
+        double total = calculateTotal();
+        double discount = applyDiscount(total);
+        double finalAmount = total - discount;
+
+        System.out.println("\n================= INVOICE =================");
+        System.out.println(String.format("%-12s | %-8s | %-4s | %-8s", "Product", "Price", "Qty", "Total"));
+        System.out.println("-------------------------------------------");
+        
+        for (Product p : productList) {
+            System.out.println(p);
+        }
+        
+        System.out.println("-------------------------------------------");
+        System.out.printf("Gross Total:           %.2f%n", total);
+        System.out.printf("Discount Applied:     -%.2f%n", discount);
+        System.out.printf("Final Payable:         %.2f%n", finalAmount);
+        System.out.println("===========================================");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        Order order = new Order();
+
+        // Adding predefined items
+        order.addProduct(new Product("Laptop", 45000));
+        order.addProduct(new Product("Mouse", 500, 2));
+        order.addProduct(new Product("Headphones", 1500, 1, "Electronics"));
+
+        System.out.print("Enter number of additional products: ");
+        int n = sc.nextInt();
+        sc.nextLine(); // Clear buffer
+
+        for (int i = 0; i < n; i++) {
+            System.out.println("\nEnter details for product #" + (i + 1));
+            System.out.print("Name: ");
+            String name = sc.nextLine();
+            System.out.print("Price: ");
+            double price = sc.nextDouble();
+            System.out.print("Quantity: ");
+            int qty = sc.nextInt();
+            sc.nextLine(); // Clear buffer
+            System.out.print("Category: ");
+            String category = sc.nextLine();
+
+            order.addProduct(new Product(name, price, qty, category));
+        }
+
+        order.generateInvoice();
+        sc.close();
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Experiment Title: Develop a Java program for an e commerce order processing system where products
+are initialized using multiple constructors, user inputs product details, total order cost is calculated
+dynamically, discount policies are applied based on conditions, and a detailed invoice is generated.
+
+
+Objective: Master Java OOP concepts by creating an e-commerce order system that initializes products
+via multiple constructors, accepts user input, computes dynamic totals with conditional discounts, and
+generates professional invoices.
+
+
+
+Prerequisites: Understanding of Java classes, constructor overloading, arrays, Scanner for input,
+conditional statements (if-else), loops (for), and basic methods with return types.
+
+
+Tools Used: JDK 8+, any IDE (Eclipse/IntelliJ), or command-line (javac/java). Scanner class from java.util
+for runtime product input.
+
+
+Outcomes: Acquire skills in constructor overloading for flexible object creation, dynamic array
+management for orders, conditional discount application, and formatted invoice output for business
+applications.
+
+
+Theory:
+Constructors and Dynamic Order Management
+In object-oriented programming, a constructor is a special method used to initialize objects when they are
+created. It ensures that newly created objects start with meaningful or default values. Constructors carry the
+same name as the class and do not return any value.
+
+
+A default constructor (no-arguments constructor) automatically assigns default or preset values to data
+members when no input is provided. For example, an item’s name might default to "Unknown", its price to
+0.0, and its quantity to 0. On the other hand, overloaded constructors accept one or more parameters (such
+as name, price, and qty) allowing objects to be initialized with customized data. This flexibility supports
+the creation of a variety of product objects with different properties while maintaining consistent
+initialization logic.
+
+
+To manage multiple product details effectively, developers often use arrays or ArrayLists to store a
+collection of objects. Arrays provide a fixed-size structure suitable when the number of items is known,
+while ArrayLists are dynamic, allowing the program to add or remove elements during execution. This
+makes them ideal for building flexible systems such as online order processing or shop billing programs,
+where the number of orders can vary.
+
+
+Essential business operations are typically handled through methods within the class. The calculateTotal()
+method, for example, multiplies price * quantity for each item and adds up all subtotals to produce the final
+amount. Another method, applyDiscount(), uses decision-making statements such as if-else to apply a
+discount only when total purchases exceed a given threshold for instance, “apply a 10% discount if total >
+₹5000, else no discount.” This approach integrates conditional logic directly into the billing process,
+ensuring fairness and consistency.
+
+
+
+To produce professional output, many programs use formatted printing techniques such as
+System.out.printf() or the String.format() method. These statements align text, control decimal precision,
+and display values neatly, creating a clear and readable invoice format for end-users. For example, the
+invoice may show columns for Item Name, Quantity, Unit Price, and Total Amount much like a real-world
+bill.
+
+
+Lastly, dynamic input through loops enables scalable and interactive systems. Loops allow users to
+repeatedly enter product details until they choose to stop, automatically adding each item to an ArrayList.
+This structure not only supports flexible workflows but also demonstrates key programming principles
+iteration, conditional logic, and object initialization working together to form a complete, real-world
+application.

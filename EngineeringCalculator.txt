@@ -1,0 +1,219 @@
+import java.util.*;
+
+public class EngineeringCalculator {
+
+    public static void main(String[] args) {
+        var scanner = new Scanner(System.in);
+        System.out.println("=== Modern Engineering Calculator ===");
+        System.out.println("Supports: +, -, *, /, ^ (power) and parentheses");
+
+        while (true) {
+            try {
+                System.out.print("\nEnter expression (or type 'exit'): ");
+                String input = scanner.nextLine().trim();
+
+                if (input.equalsIgnoreCase("exit")) {
+                    System.out.println("Calculator closed.");
+                    break;
+                }
+
+                if (input.isEmpty()) continue;
+
+                double result = evaluateExpression(input);
+                System.out.printf("Result = %s%n", result);
+
+            } catch (ArithmeticException ae) {
+                System.out.println("Math Error: " + ae.getMessage());
+            } catch (EmptyStackException e) {
+                System.out.println("Invalid Expression: Mismatched operators or parentheses.");
+            } catch (Exception e) {
+                System.out.println("Error: Invalid input format.");
+            }
+        }
+        scanner.close();
+    }
+
+    public static double evaluateExpression(String expression) {
+        Deque<Double> values = new ArrayDeque<>();
+        Deque<Character> operators = new ArrayDeque<>();
+
+        for (int i = 0; i < expression.length(); i++) {
+            char ch = expression.charAt(i);
+
+            if (Character.isWhitespace(ch)) continue;
+
+            // Handle numbers (including decimals)
+            if (Character.isDigit(ch) || ch == '.') {
+                var sb = new StringBuilder();
+                while (i < expression.length() && (Character.isDigit(expression.charAt(i)) || expression.charAt(i) == '.')) {
+                    sb.append(expression.charAt(i++));
+                }
+                values.push(Double.parseDouble(sb.toString()));
+                i--; // Step back to compensate for loop increment
+            } 
+            else if (ch == '(') {
+                operators.push(ch);
+            } 
+            else if (ch == ')') {
+                while (!operators.isEmpty() && operators.peek() != '(') {
+                    values.push(applyOperation(operators.pop(), values.pop(), values.pop()));
+                }
+                operators.pop(); // Remove '('
+            } 
+            else if (isOperator(ch)) {
+                while (!operators.isEmpty() && precedence(ch) <= precedence(operators.peek())) {
+                    values.push(applyOperation(operators.pop(), values.pop(), values.pop()));
+                }
+                operators.push(ch);
+            }
+        }
+
+        while (!operators.isEmpty()) {
+            values.push(applyOperation(operators.pop(), values.pop(), values.pop()));
+        }
+
+        return values.pop();
+    }
+
+    private static boolean isOperator(char ch) {
+        return "+-*/^".indexOf(ch) != -1;
+    }
+
+    private static int precedence(char op) {
+        return switch (op) {
+            case '+', '-' -> 1;
+            case '*', '/' -> 2;
+            case '^'      -> 3;
+            default       -> -1;
+        };
+    }
+
+    private static double applyOperation(char op, double b, double a) {
+        return switch (op) {
+            case '+' -> a + b;
+            case '-' -> a - b;
+            case '*' -> a * b;
+            case '^' -> Math.pow(a, b);
+            case '/' -> {
+                if (b == 0) throw new ArithmeticException("Division by zero");
+                yield a / b;
+            }
+            default -> 0;
+        };
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Experiment Title: Implement a robust Java calculator program that captures user input dynamically,
+processes mathematical expressions using conditional logic and looping constructs, and ensures efficient
+error handling.
+
+Objective: Develop proficiency in Java control structures by implementing a dynamic calculator that
+processes user inputs for addition, subtraction, multiplication, division, and modulus while handling errors
+gracefully. Students learn to create robust, user-friendly console applications.
+
+Prerequisites: Basic Java syntax including variables, data types (double, char, String), and input/output.
+Familiarity with Scanner class for reading inputs and understanding program flow control.
+
+Tools Used: JDK 8 or higher (Eclipse IDE, IntelliJ, or command-line javac/java). Scanner from java.util
+package for dynamic input capture.
+
+Outcomes: Gain competencies in conditional decision-making, loop-based repetition for multi-operation
+sessions, input validation, and exception management for real-world programming resilience.
+
+Theory:
+Control Statements and Program Flow
+Control statements are essential parts of any programming language because they determine how
+instructions are executed. They allow a program to make decisions, repeat tasks, and manage its overall
+direction. Without these statements, every line would run sequentially, making programs rigid and non-
+interactive. The three major categories of control statements are selection, iteration, and jump statements.
+
+
+Selection statements
+Selection statements mainly if-else and switch help programs make choices based on certain conditions.
+The if-else statement compares values and executes specific blocks of code depending on whether a
+condition is true or false. For example, it can display “Pass” if marks are above 40 or “Fail” otherwise.
+When several possible outcomes exist, the switch-case structure works better than multiple if-else checks.
+It compares a variable against several case labels (usually integers or characters) and executes the matching
+block. This makes code easier to read and manage, especially in menu-driven applications or multi-choice
+logic.
+
+
+Iteration statements
+Iteration allows certain sections of code to repeat until a condition changes ideal for tasks involving
+repetition like summing numbers, validating input, or displaying sequences. The while, do-while, and for
+loops are the main types:
+while checks the condition before execution (pre-test).
+do-while checks after execution, ensuring one run even if false initially.
+for loop is compact and ideal when the number of iterations is known, such as counting from 1 to 10.
+These loops reduce code duplication and make programs more efficient.
+
+
+Jump statements
+Loop control is further refined using break and continue.
+break ends the loop immediately when a specific condition is met, preventing unnecessary iterations.
+continue skips the remaining code for the current iteration but continues the loop with the next cycle.
+Both statements make loop execution more flexible and controlled.
+
+Scanner Class and Input Handling
+Interactive programs require user input, and Java provides the Scanner class for this purpose. It reads input
+from the keyboard and converts it into usable data types using methods such as:
+nextInt() for integers
+nextDouble() for decimals
+nextLine() for strings
+However, user input can be unpredictable. Entering text where a number is expected may cause an error.
+To handle such cases, developers use exception handling.
+
+Error Handling with Try-Catch-Finally
+The try-catch-finally structure ensures programs run smoothly even when unexpected errors occur. Risky
+code goes inside the try block, and if an error appears, the catch block handles it gracefully instead of
+crashing the program. The finally block executes afterward, regardless of errors, often used for cleanup
+tasks.
+
+Common exceptions include:
+InputMismatchException – triggered when the Scanner input type doesn’t match (e.g., entering text instead
+of a number).
+ArithmeticException – raised when performing invalid arithmetic operations like dividing by zero.
+Handling these ensures the program remains stable and user-friendly.
+
+Integrating the Concepts
+A well-structured Java program often combines all these features. It might use loops for repeated input,
+selection statements for decisions, try-catch for managing invalid entries, and jump statements for fine-
+tuned control. Together, they give programs flexibility, reliability, and a human-like ability to handle real-
+world interactions.

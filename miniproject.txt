@@ -1,0 +1,139 @@
+Banking System Code
+BankAccountController.java
+package com.bank.controller;
+
+import com.bank.model.BankAccount;
+import com.bank.service.BankAccountService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api")
+public class BankAccountController {
+
+    private final BankAccountService bankAccountService;
+
+    public BankAccountController(BankAccountService bankAccountService) {
+        this.bankAccountService = bankAccountService;
+    }
+
+    @PostMapping("/createAccount")
+    public ResponseEntity<?> createAccount(@RequestBody Map<String, Object> payload) {
+        try {
+            String accNum = (String) payload.get("accountNumber");
+            String accName = (String) payload.get("accountHolderName");
+            double initialDeposit = Double.parseDouble(payload.get("initialDeposit").toString());
+
+            BankAccount account = bankAccountService.createAccount(accNum, accName, initialDeposit);
+            return ResponseEntity.ok(account);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Invalid input data"));
+        }
+    }
+
+    @PostMapping("/deposit")
+    public ResponseEntity<?> deposit(@RequestBody Map<String, Object> payload) {
+        try {
+            String accNum = (String) payload.get("accountNumber");
+            double amount = Double.parseDouble(payload.get("amount").toString());
+
+            BankAccount account = bankAccountService.deposit(accNum, amount);
+            return ResponseEntity.ok(account);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Invalid input data"));
+        }
+    }
+
+    @PostMapping("/withdraw")
+    public ResponseEntity<?> withdraw(@RequestBody Map<String, Object> payload) {
+        try {
+            String accNum = (String) payload.get("accountNumber");
+            double amount = Double.parseDouble(payload.get("amount").toString());
+
+            BankAccount account = bankAccountService.withdraw(accNum, amount);
+            return ResponseEntity.ok(account);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Invalid input data"));
+        }
+    }
+
+    @GetMapping("/balance/{id}")
+    public ResponseEntity<?> getBalance(@PathVariable String id) {
+        try {
+            BankAccount account = bankAccountService.getAccount(id);
+            return ResponseEntity.ok(Map.of("balance", account.getBalance()));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    @GetMapping("/account/{id}")
+    public ResponseEntity<?> getAccount(@PathVariable String id) {
+        try {
+            BankAccount account = bankAccountService.getAccount(id);
+            return ResponseEntity.ok(account);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        }
+    }
+}
+
+IllegalArgumentException.java
+package java.lang;
+
+public class IllegalArgumentException extends RuntimeException {
+
+    public IllegalArgumentException() {
+        super();
+    }
+
+    public IllegalArgumentException(String s) {
+        super(s);
+    }
+
+    public IllegalArgumentException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public IllegalArgumentException(Throwable cause) {
+        super(cause);
+    }
+
+    @java.io.Serial
+    private static final long serialVersionUID = -5365630128856068164L;
+}
+
+
+package com.bank.model;
+
+public class BankAccount {
+    private String accountNumber;
+    private String accountHolderName;
+    private double balance;
+
+    public BankAccount() {}
+
+    public BankAccount(String accountNumber, String accountHolderName, double initialBalance) {
+        this.accountNumber = accountNumber;
+        this.accountHolderName = accountHolderName;
+        this.balance = initialBalance;
+    }
+
+    public String getAccountNumber() { return accountNumber; }
+    public void setAccountNumber(String accountNumber) { this.accountNumber = accountNumber; }
+
+    public String getAccountHolderName() { return accountHolderName; }
+    public void setAccountHolderName(String accountHolderName) { this.accountHolderName = accountHolderName; }
+
+    public double getBalance() { return balance; }
+    public void setBalance(double balance) { this.balance = balance; }
+}
+

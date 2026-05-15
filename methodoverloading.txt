@@ -1,0 +1,162 @@
+import java.util.Scanner;
+
+class Calculator {
+    // Overloaded Power Methods
+    // Formula: $base^{exponent}$
+    
+    public static double power(int base, int exponent) {
+        return Math.pow(base, exponent);
+    }
+
+    public static double power(double base, double exponent) {
+        return Math.pow(base, exponent);
+    }
+
+    public static double power(float base, int exponent) {
+        return Math.pow(base, exponent);
+    }
+
+    // Overloaded Absolute Methods
+    // Formula: $|num|$
+
+    public static int absolute(int num) {
+        return Math.abs(num);
+    }
+
+    public static double absolute(double num) {
+        return Math.abs(num);
+    }
+
+    public static long absolute(long num) {
+        return Math.abs(num);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // Using try-with-resources to automatically close the scanner
+        try (Scanner sc = new Scanner(System.in)) {
+            
+            System.out.println("=== POWER CALCULATION ===");
+            System.out.print("Enter integer base & exponent: ");
+            int ibase = sc.nextInt();
+            int iexp = sc.nextInt();
+            System.out.printf("Integer Result: %.2f%n", Calculator.power(ibase, iexp));
+
+            System.out.print("\nEnter double base & exponent: ");
+            double dbase = sc.nextDouble();
+            double dexp = sc.nextDouble();
+            System.out.printf("Double Result: %.4f%n", Calculator.power(dbase, dexp));
+
+            System.out.println("\n=== ABSOLUTE VALUE ===");
+            System.out.print("Enter an integer (e.g., -5): ");
+            int inum = sc.nextInt();
+            System.out.println("Absolute: " + Calculator.absolute(inum));
+
+            System.out.print("Enter a long value: ");
+            long lnum = sc.nextLong();
+            System.out.println("Absolute: " + Calculator.absolute(lnum));
+        } catch (Exception e) {
+            System.out.println("Error: Please enter valid numeric values.");
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Experiment Title: Write a Java program demonstrating method overloading to compute power and
+absolute value for different data types using static methods from the Math class.
+
+
+Objective: Understand method overloading by creating power and absolute value methods for multiple
+data types, then compare results with Math class static methods to appreciate Java's built-in precision
+handling.
+
+
+Prerequisites: Basic Java syntax, primitive data types (int, double, float), method declaration, return
+statements, and familiarity with Math class static methods.
+
+
+Tools Used: JDK 8+, any Java IDE or command-line compiler. No external libraries needed beyond core
+java.lang.Math.
+
+
+Outcomes: Master method overloading resolution rules, implement mathematical computations manually
+vs library calls, and gain insight into data type promotion and precision differences.
+
+
+
+
+
+Theory:
+Method Overloading and the Math Class
+Method overloading is an important feature of object-oriented programming that allows multiple methods
+in the same class to share the same name but differ in the number or type of parameters. This enables code
+readability and flexibility while allowing the programmer to define various behaviors for similar operations.
+Overloading is resolved at compile-time, meaning the compiler determines which version of the method to
+call based on the arguments supplied by the user.
+
+
+
+
+
+
+For instance, a method named display() might have several versions: one that prints a string, another that
+prints an integer, and one that prints both. The compiler automatically chooses the matching version
+depending on the argument type. However, it’s important to note that return types do not influence
+overloading. Two methods cannot be considered overloaded if their only difference lies in their return type
+there must be a distinct parameter list.
+
+
+
+
+
+
+A practical example of overloading can be seen in mathematical operations. Java’s built-in Math class
+contains many static methods that perform general-purpose mathematical calculations. Since they are static,
+they can be accessed directly via the class name, without creating an object for example:
+Math.pow(base, exp) calculates a number raised to a power.
+Math.abs(n) returns the absolute (non-negative) value of a number, regardless of whether it’s positive or
+negative.
+
+
+
+
+
+
+The Math class provides versions of these methods for different numeric types (like int, float, and double)
+through method overloading. For example, both Math.abs(int n) and Math.abs(double n) exist, ensuring
+correct data handling according to the type of the argument.
+
+
+
+
+
+In user-defined classes, programmers can create their own overloaded methods to handle different data
+types. Suppose we define two custom methods:
+int power(int base, int exp) for integer exponentiation.
+double power(double base, double exp) for real-number exponentiation.
+When a programmer calls power(2, 3), the integer version runs, whereas power(2.0, 3.0) invokes the double
+version. This ensures type safety the compiler can match the correct method version to the input type,
+avoiding unnecessary type conversions or ambiguity.

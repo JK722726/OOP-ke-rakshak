@@ -1,0 +1,197 @@
+import java.util.*;
+
+// The Interface: A blueprint/contract
+interface Shape {
+    void draw(); // Abstract method (no body)
+    double calculateArea(); // Abstract method
+}
+
+class Circle implements Shape {
+    private final double radius;
+
+    public Circle(double radius) {
+        this.radius = radius;
+    }
+
+    @Override
+    public void draw() {
+        System.out.println("Drawing Circle with radius: " + radius);
+    }
+
+    @Override
+    public double calculateArea() {
+        // Formula: $Area = \pi \times r^2$
+        return Math.PI * Math.pow(radius, 2);
+    }
+}
+
+class Rectangle implements Shape {
+    private final double length;
+    private final double width;
+
+    public Rectangle(double length, double width) {
+        this.length = length;
+        this.width = width;
+    }
+
+    @Override
+    public void draw() {
+        System.out.println("Drawing Rectangle: " + length + "x" + width);
+    }
+
+    @Override
+    public double calculateArea() {
+        // Formula: $Area = length \times width$
+        return length * width;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // Polymorphism: Interface reference pointing to child objects
+        Shape s1 = new Circle(5);
+        Shape s2 = new Rectangle(4, 6);
+
+        displayShape(s1);
+        System.out.println();
+        displayShape(s2);
+    }
+
+    // A helper method that accepts ANY Shape
+    public static void displayShape(Shape s) {
+        s.draw();
+        System.out.printf("Area: %.4f%n", s.calculateArea());
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Experiment Title: Implement an interface in Java and create multiple classes that implement the interface
+to demonstrate polymorphism.
+
+
+
+
+Objective: Master Java interfaces by implementing a common contract across multiple classes and
+demonstrate polymorphism where interface references invoke different class implementations dynamically.
+Understand how interfaces enable flexible, extensible OOP design.
+
+
+
+Prerequisites: Basic knowledge of Java classes, methods, and inheritance. Familiarity with abstract
+methods and object references. Understanding that interfaces define "what" without "how" (pure contracts).
+
+
+
+Tools Used:
+1. Java Development Kit (JDK 8 or higher)
+2. Text editor (Notepad++, VS Code) or IDE (Eclipse, IntelliJ IDEA, NetBeans)
+3. Command line compiler (javac, java) or IDE run button
+
+
+
+
+
+Outcomes:
+1. Implement interface contracts using implements keyword across multiple classes.
+2. Demonstrate polymorphism with interface array references calling different implementations.
+3. Use interfaces for loose coupling and extensibility in OOP design.
+4. Debug common interface errors like missing method implementations.
+
+
+
+
+Theory:
+Think of interfaces like job contracts. A company posts a "Driver" job requiring drive() and brake()
+methods. Different people (TruckDriver, CarDriver, BikeDriver) apply and implement these required skills
+differently. The HR system doesn't care how they drive it just calls drive() on any Driver reference, and the
+right implementation runs automatically. That's polymorphism in action!
+Java Interfaces define pure contracts methods without bodies that implementing classes must provide.
+Unlike classes, interfaces can't be instantiated and contain no concrete implementation (pre-Java 8). They're
+the ultimate "is-able-to" relationship.
+
+
+
+
+Syntax:
+interface InterfaceName {
+    // All methods public abstract by default (no body)
+    void method1();
+    int method2(int param);
+    // Constants: public static final double PI = 3.14;
+}
+class MyClass implements InterfaceName {
+    // MUST implement ALL interface methods
+    public void method1() { /* implementation */ }
+    public int method2(int param) { /* implementation */ }
+}
+
+
+
+
+
+
+Polymorphism Magic:
+
+Drawable[] shapes = {new Circle(), new Rectangle()};
+for(Drawable shape : shapes) {
+    shape.draw(); // Calls Circle.draw() OR Rectangle.draw() dynamically!
+}
+
+
+
+
+
+Key Interface:
+ Multiple Implementation: One interface, many classes: class Circle implements Drawable, class
+Square implements Drawable.
+ Interface References: Drawable d = new Circle(); d.draw(); calls Circle's version!
+ Array Polymorphism: Store different implementations in one array, loop calls correct method each
+time.
+ Loose Coupling: Code works with any Drawable without knowing concrete class.
+
+
+
+
+
+
+
+
+
+
+
+
+
+Algorithm:
+1. Define Drawable interface with draw() abstract method.
+2. Create Circle class implementing Drawable with radius-based draw().
+3. Create Rectangle class implementing Drawable with width/height draw().
+4. In main(), create interface array with Circle and Rectangle objects.
+5. Loop through array calling draw()—demonstrates polymorphic behavior.

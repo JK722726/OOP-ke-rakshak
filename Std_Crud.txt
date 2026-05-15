@@ -1,0 +1,299 @@
+import java.sql.*;
+import java.util.Scanner;
+
+public class Std_Crud {
+    // Database configuration
+    private static final String URL = "jdbc:mysql://localhost:3306/studentdb";
+    private static final String USER = "root";
+    private static final String PASSWORD = "kpatil6214";
+
+    // Reusable connection method
+    private static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(URL, USER, PASSWORD);
+    }
+
+    public static void main(String[] args) {
+        var scanner = new Scanner(System.in);
+        int choice;
+
+        do {
+            System.out.println("\n===== STUDENT MANAGEMENT SYSTEM =====");
+            System.out.println("1. Add | 2. View All | 3. Update Marks | 4. Delete | 5. Exit");
+            System.out.print("Selection: ");
+
+            while (!scanner.hasNextInt()) {
+                System.out.print("Invalid input. Enter a number (1-5): ");
+                scanner.next();
+            }
+            choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1 -> addStudent(scanner);
+                case 2 -> viewStudents();
+                case 3 -> updateStudent(scanner);
+                case 4 -> deleteStudent(scanner);
+                case 5 -> System.out.println("Closing system...");
+                default -> System.out.println("Invalid choice. Try again.");
+            }
+        } while (choice != 5);
+        scanner.close();
+    }
+
+    // CREATE: Uses Transactions for data integrity
+    private static void addStudent(Scanner sc) {
+        String sql = "INSERT INTO students (id, name, course, marks) VALUES (?, ?, ?, ?)";
+        
+        try (var con = getConnection()) {
+            con.setAutoCommit(false); // Begin Transaction
+
+            try (var ps = con.prepareStatement(sql)) {
+                System.out.print("ID: "); ps.setInt(1, sc.nextInt());
+                sc.nextLine(); // Clear buffer
+                System.out.print("Name: "); ps.setString(2, sc.nextLine());
+                System.out.print("Course: "); ps.setString(3, sc.nextLine());
+                System.out.print("Marks: "); ps.setDouble(4, sc.nextDouble());
+
+                ps.executeUpdate();
+                con.commit(); // Save changes
+                System.out.println("✔ Student added successfully.");
+            } catch (SQLException e) {
+                con.rollback(); // Undo changes on error
+                System.err.println("❌ Transaction failed. Rolling back: " + e.getMessage());
+            }
+        } catch (SQLException e) {
+            System.err.println("❌ Connection error: " + e.getMessage());
+        }
+    }
+
+    // READ: Displays data in a clean format
+    private static void viewStudents() {
+        String sql = "SELECT * FROM students";
+
+        try (var con = getConnection();
+             var ps = con.prepareStatement(sql);
+             var rs = ps.executeQuery()) {
+
+            System.out.println("\nID   | Name                 | Course          | Marks");
+            System.out.println("-------------------------------------------------------");
+            while (rs.next()) {
+                System.out.printf("%-4d | %-20s | %-15s | %.2f%n",
+                    rs.getInt("id"), rs.getString("name"), 
+                    rs.getString("course"), rs.getDouble("marks"));
+            }
+        } catch (SQLException e) {
+            System.err.println("❌ Error loading records: " + e.getMessage());
+        }
+    }
+
+    // UPDATE: Modifies record with safety check
+    private static void updateStudent(Scanner sc) {
+        String sql = "UPDATE students SET marks = ? WHERE id = ?";
+
+        try (var con = getConnection()) {
+            con.setAutoCommit(false);
+
+            try (var ps = con.prepareStatement(sql)) {
+                System.out.print("Enter Student ID: "); int id = sc.nextInt();
+                System.out.print("Enter New Marks: "); double marks = sc.nextDouble();
+
+                ps.setDouble(1, marks);
+                ps.setInt(2, id);
+
+                int affected = ps.executeUpdate();
+                if (affected > 0) {
+                    con.commit();
+                    System.out.println("✔ Update completed.");
+                } else {
+                    System.out.println("⚠ No student found with ID: " + id);
+                }
+            } catch (SQLException e) {
+                con.rollback();
+                System.err.println("❌ Update failed: " + e.getMessage());
+            }
+        } catch (SQLException e) {
+            System.err.println("❌ Database error: " + e.getMessage());
+        }
+    }
+
+    // DELETE: Removes record
+    private static void deleteStudent(Scanner sc) {
+        String sql = "DELETE FROM students WHERE id = ?";
+
+        try (var con = getConnection()) {
+            con.setAutoCommit(false);
+
+            try (var ps = con.prepareStatement(sql)) {
+                System.out.print("ID to delete: ");
+                int id = sc.nextInt();
+                ps.setInt(1, id);
+
+                int affected = ps.executeUpdate();
+                if (affected > 0) {
+                    con.commit();
+                    System.out.println("✔ Record removed.");
+                } else {
+                    System.out.println("⚠ ID not found.");
+                }
+            } catch (SQLException e) {
+                con.rollback();
+                System.err.println("❌ Deletion failed: " + e.getMessage());
+            }
+        } catch (SQLException e) {
+            System.err.println("❌ Database error: " + e.getMessage());
+        }
+    }
+}
+
+// java -cp ".;mysql-connector-j-9.7.0.jar" Std_Crud
+
+
+
+// CREATE DATABASE IF NOT EXISTS studentdb;
+// USE studentdb;
+
+// CREATE TABLE IF NOT EXISTS students (
+//     id INT PRIMARY KEY,
+//     name VARCHAR(100) NOT NULL,
+//     course VARCHAR(100),
+//     marks DOUBLE CHECK (marks >= 0 AND marks <= 100)
+// );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Experiment Title: Develop a Java application that connects to a MySQL/Postgre SQL database to manage
+student information. Implement CRUD operations for student records using JDBC. Use prepared statements
+to handle SQLqueries securely and ensure proper transaction management.
+
+
+
+
+
+
+
+
+
+
+
+
+
+Objective: Build a comprehensive Java console application connecting to MySQL database for managing
+student records with full CRUD functionality. Students will implement secure JDBC operations using
+prepared statements and transaction management for data integrity.
+
+
+
+
+Learning Outcomes
+ Master JDBC connection management and secure parameterized queries for student data operations.
+
+ Implement transaction control (commit/rollback) to maintain database consistency during multi-
+step operations.
+
+ Apply exception handling and resource cleanup best practices in database applications.
+
+
+
+
+
+
+Theory:
+JDBC provides the essential link between Java applications and databases like MySQL, enabling seamless
+data manipulation.
+The connection process starts with DriverManager.getConnection() using the JDBC URL format
+jdbc:mysql://localhost:3306/studentdb.
+
+
+
+This establishes a Connection object representing your database session.
+Prepared Statements Security First: These are pre-compiled SQL templates using ? placeholders.
+Parameters bind safely via setString(1, value), preventing SQL injection attacks where malicious input like
+' OR '1'='1 could expose your entire database. Example: SELECT * FROM students WHERE id = ? treats
+input as data, not executable code.
+
+
+
+Transaction Management: Database transactions ensure ACID properties (Atomicity, Consistency,
+Isolation, Durability). Start with conn.setAutoCommit(false), perform operations, then conn.commit() for
+success or conn.rollback() on failure. Critical for operations like "enroll student + update fee status" - either
+both succeed or both fail, preventing partial updates.
+
+
+
+
+
+
+Complete CRUD Flow:
+1. INSERT: Add new students with AUTO_INCREMENT ID
+2. SELECT: Retrieve records using ResultSet.next() and getters
+3. UPDATE: Modify fields with precise WHERE conditions
+4. DELETE: Remove records safely with ID validation
+
+
+
+
+
+
+
+
+Resource Management: Use try-with-resources for automatic cleanup of Connection, PreparedStatement,
+ResultSet. SQLException handling extracts getMessage(), getSQLState(), getErrorCode() for precise
+debugging. Always validate user inputs before database operations.
+
+
+
+
+
+
+Database Schema:
+sql
+CREATE TABLE students (
+id INT AUTO_INCREMENT PRIMARY KEY,
+roll_no VARCHAR(20) UNIQUE NOT NULL,
+name VARCHAR(100) NOT NULL,
+email VARCHAR(100) UNIQUE,
+department VARCHAR(50),
+semester INT,
+cgpa DOUBLE
+);
+This structure supports typical academic record management with proper
+constraints.

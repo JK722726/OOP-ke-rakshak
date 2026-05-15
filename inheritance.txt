@@ -1,0 +1,171 @@
+class Animal {
+    protected String name;
+    protected int age;
+
+    public Animal(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public void eat() {
+        System.out.println(name + " is eating.");
+    }
+
+    public void sleep() {
+        System.out.println(name + " is sleeping.");
+    }
+}
+
+class Dog extends Animal {
+    private String breed;
+
+    public Dog(String name, int age, String breed) {
+        super(name, age); // Calls the Animal constructor
+        this.breed = breed;
+    }
+
+    public void bark() {
+        System.out.println(name + " is barking.");
+    }
+
+    @Override
+    public void eat() {
+        System.out.println(name + " is eating dog food.");
+    }
+
+    public void displayDetails() {
+        System.out.println("Name: " + name);
+        System.out.println("Age: " + age);
+        System.out.println("Breed: " + breed);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Dog d1 = new Dog("Tommy", 3, "Labrador");
+
+        d1.displayDetails();
+        System.out.println();
+        
+        d1.eat();   // Executes the overridden method in Dog
+        d1.sleep(); // Executes the inherited method from Animal
+        d1.bark();  // Executes the specific method in Dog
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Experiment Title: Create a Java program demonstrating single inheritance where a subclass extends a
+superclass and calls its methods.
+
+
+
+
+
+Objective: Understand single inheritance by creating a subclass that extends a superclass, inherits its
+methods and fields, and demonstrates method calling from the parent class. Master the extends keyword
+and constructor chaining for real-world OOP applications.
+
+
+
+
+Prerequisites
+Basic knowledge of Java classes, objects, constructors, and methods. Familiarity with creating class files
+and running Java programs using command line or IDE. Understanding of access modifiers (public, private)
+is helpful but not mandatory.
+
+
+
+
+Tools Used
+1. Java Development Kit (JDK 8 or higher)
+2. Text editor (Notepad++, VS Code) or IDE (Eclipse, IntelliJ IDEA, NetBeans)
+3. Command line compiler (javac, java) or IDE run button
+
+
+
+Outcomes
+1. Implement single inheritance hierarchy with proper method inheritance and calling.
+2. Use super keyword for constructor chaining and method access.
+3. Demonstrate code reuse and "is-a" relationships in OOP design.
+4. Debug common inheritance errors like missing extends or access issues.
+
+
+
+
+
+
+Theory:
+Imagine you're building a zoo management system. Every animal in the zoo shares common traits they all
+have a name, age, and basic behaviors like eating or sleeping. But each animal type adds unique behaviors.
+A lion roars, a bird flies, a dog barks. Creating separate classes for each animal from scratch would repeat
+the common code endlessly. That's where inheritance saves the day!
+Single Inheritance is like family inheritance your child class (subclass/derived class) gets all the traits and
+behaviors from one parent class (superclass/base class). Java uses the extends keyword to create this "is-a"
+relationship. A Dog is-a Animal, so Dog inherits Animal's fields and methods automatically.
+
+
+
+
+Syntax:
+class SuperClass { // Parent class
+// fields, constructors, methods
+}
+class SubClass extends SuperClass { // Child class inherits
+everything
+// can add new fields/methods
+// can override parent's methods
+}
+
+
+
+
+
+
+
+
+Key Concepts Explanation:
+1.Fields Inheritance: Subclass gets parent's non-private fields for free. Dog dog = new Dog(); dog.name
+= "Buddy"; works even if name is in Animal class.
+2.Method Inheritance: Subclass can call parent's methods directly: dog.eat(); calls Animal's eat() method.
+3.Constructor Chaining: When you create a subclass object, Java automatically calls the superclass
+constructor first using super(). If not explicit, it calls the no-arg superclass constructor.
+
+
+
+ super Keyword: Three superpowers!
+ super(): Call parent constructor (must be first statement)
+ super.method(): Call parent's version of overridden method
+ super.field: Access parent's field if shadowed
+
+
+
+
+
+
+
+
+Algorithm:
+1. Define superclass Animal with fields (name, age), constructor, and eat() method.
+2. Define subclass Dog extending Animal with additional breed field and bark() method.
+3. In Dog constructor, call super(name, age) for parent initialization.
+4. In main(), create Dog object and call inherited eat() + new bark() methods.
+5. Demonstrate overriding by calling eat() (shows enhanced version).
